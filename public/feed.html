@@ -1,0 +1,247 @@
+<!-- public/feed.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed - Primemar</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar left-sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fas fa-dove"></i>
+                </div>
+
+                <nav class="main-nav">
+                    <a href="/feed.html" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-item" id="exploreBtn">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Explore</span>
+                    </a>
+                    <a href="#" class="nav-item" id="notificationsBtn">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                        <span class="badge hidden" id="notificationBadge">0</span>
+                    </a>
+                    <a href="#" class="nav-item" id="messagesBtn">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <span class="badge hidden" id="messageBadge">0</span>
+                    </a>
+                    <a href="/profile.html" class="nav-item" id="profileBtn">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="nav-item" id="bookmarksBtn">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Bookmarks</span>
+                    </a>
+                    <a href="#" class="nav-item" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+
+                <button class="btn btn-primary post-btn" id="newPostBtn">
+                    <i class="fas fa-feather-alt"></i>
+                    <span>Post</span>
+                </button>
+
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">
+                        <img id="userAvatar" src="/assets/avatar.png" alt="Profile">
+                    </div>
+                    <div class="user-info">
+                        <span id="userDisplayName">Loading...</span>
+                        <small id="userUsername">@username</small>
+                    </div>
+                    <button class="more-btn" id="moreBtn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu hidden" id="userDropdown">
+                        <a href="/profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="feed-header">
+                <h1>Home</h1>
+                <button class="refresh-btn" id="refreshFeed">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+
+            <!-- Create Post -->
+            <div class="create-post" id="createPostSection">
+                <div class="post-form">
+                    <div class="post-avatar">
+                        <img id="currentUserAvatar" src="/assets/avatar.png" alt="You">
+                    </div>
+                    <div class="post-content">
+                        <textarea 
+                            id="postContent" 
+                            placeholder="What's happening?" 
+                            maxlength="280"
+                        ></textarea>
+                        
+                        <div class="post-actions">
+                            <div class="media-buttons">
+                                <button type="button" class="media-btn" id="addImageBtn" title="Add image">
+                                    <i class="fas fa-image"></i>
+                                </button>
+                                <button type="button" class="media-btn" id="addVideoBtn" title="Add video">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                                <button type="button" class="media-btn" id="addPollBtn" title="Add poll">
+                                    <i class="fas fa-chart-pie"></i>
+                                </button>
+                                <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden">
+                            </div>
+                            
+                            <div class="post-submit">
+                                <span class="char-count" id="charCount">280</span>
+                                <button type="button" class="btn btn-primary" id="submitPost" disabled>
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="media-preview hidden" id="mediaPreview">
+                            <div class="preview-container">
+                                <img id="previewImage" class="hidden" alt="Preview">
+                                <video id="previewVideo" class="hidden" controls></video>
+                                <button type="button" class="remove-media" id="removeMedia">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed -->
+            <div class="feed" id="feed">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading posts...</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar right-sidebar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search Primemar">
+            </div>
+
+            <div class="trending-section">
+                <h3>Trends for you</h3>
+                <div class="trending-list" id="trendingList">
+                    <!-- Trends will be loaded here -->
+                </div>
+            </div>
+
+            <div class="who-to-follow">
+                <h3>Who to follow</h3>
+                <div class="follow-list" id="followList">
+                    <!-- Suggestions will be loaded here -->
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <span>© 2024 Primemar</span>
+            </div>
+        </aside>
+    </div>
+
+    <!-- New Post Modal -->
+    <div class="modal hidden" id="newPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Create post</h2>
+            </div>
+            <div class="modal-body">
+                <!-- Same form as above, will be cloned -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/feed/loadFeed.js"></script>
+    <script type="module" src="/js/feed/createPost.js"></script>
+    <script type="module" src="/js/guards/authGuard.js"></script>
+    <script type="module">
+        import { getCurrentUser, logout } from '/js/guards/authGuard.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            const user = await getCurrentUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Setup logout
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // Setup user dropdown
+            const moreBtn = document.getElementById('moreBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', () => {
+                userDropdown.classList.add('hidden');
+            });
+
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Load user info
+            import { supabase } from '/js/config/supabase.js';
+            
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            if (profile) {
+                document.getElementById('userDisplayName').textContent = profile.display_name;
+                document.getElementById('userUsername').textContent = `@${profile.username}`;
+                document.getElementById('currentUserAvatar').src = profile.avatar_url || '/assets/avatar.png';
+                document.getElementById('userAvatar').src = profile.avatar_url || '/assets/avatar.png';
+            }
+        });
+    </script>
+</body>
+</html>1
