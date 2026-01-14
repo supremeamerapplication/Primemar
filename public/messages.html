@@ -1,0 +1,309 @@
+<!-- public/messages.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Primemar</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/messages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar left-sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fas fa-dove"></i>
+                </div>
+
+                <nav class="main-nav">
+                    <a href="/feed.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Explore</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="/messages.html" class="nav-item active">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                    <a href="/profile.html" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Bookmarks</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+
+                <button class="btn btn-primary post-btn" id="newPostBtn">
+                    <i class="fas fa-feather-alt"></i>
+                    <span>Post</span>
+                </button>
+
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">
+                        <img id="userAvatar" src="/assets/avatar.png" alt="Profile">
+                    </div>
+                    <div class="user-info">
+                        <span id="userDisplayName">Loading...</span>
+                        <small id="userUsername">@username</small>
+                    </div>
+                    <button class="more-btn" id="moreBtn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu hidden" id="userDropdown">
+                        <a href="/profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content messages-container">
+            <!-- Messages Header -->
+            <div class="messages-header">
+                <h1>Messages</h1>
+                <button class="new-message-btn" id="newMessageBtn">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+
+            <!-- Conversations List -->
+            <div class="conversations-sidebar">
+                <div class="search-conversations">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchConversations" placeholder="Search conversations">
+                </div>
+
+                <div class="conversations-list" id="conversationsList">
+                    <!-- Conversations will be loaded here -->
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading conversations...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area" id="chatArea">
+                <div class="empty-chat">
+                    <i class="fas fa-comments"></i>
+                    <h2>Your messages</h2>
+                    <p>Send private messages to a friend or group.</p>
+                    <button class="btn btn-primary" id="startNewChat">New message</button>
+                </div>
+            </div>
+
+            <!-- Active Chat -->
+            <div class="active-chat hidden" id="activeChat">
+                <div class="chat-header">
+                    <button class="back-to-conversations" id="backToConversations">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="chat-user-info">
+                        <div class="chat-avatar">
+                            <img id="chatAvatar" src="/assets/avatar.png" alt="User">
+                        </div>
+                        <div>
+                            <h3 id="chatUserName">User Name</h3>
+                            <p class="user-status" id="userStatus">Online</p>
+                        </div>
+                    </div>
+                    <button class="chat-options">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will be loaded here -->
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading messages...</span>
+                    </div>
+                </div>
+
+                <div class="message-input-area">
+                    <div class="message-attachments">
+                        <button class="attach-btn" id="attachMediaBtn" title="Attach media">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <button class="attach-btn" id="attachFileBtn" title="Attach file">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="mediaUpload" class="hidden" accept="image/*,video/*">
+                        <input type="file" id="fileUpload" class="hidden" accept="*">
+                    </div>
+                    
+                    <div class="message-input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Start a new message" 
+                            rows="1"
+                        ></textarea>
+                        <div class="message-preview" id="messagePreview">
+                            <!-- Media preview will appear here -->
+                        </div>
+                    </div>
+                    
+                    <button class="send-btn" id="sendMessageBtn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <div class="typing-indicator hidden" id="typingIndicator">
+                    <span class="dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </span>
+                    <span id="typingUserName">Someone</span> is typing...
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar right-sidebar">
+            <!-- Same as other pages -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search Primemar">
+            </div>
+
+            <div class="trending-section">
+                <h3>Trends for you</h3>
+                <div class="trending-list" id="trendingList">
+                    <!-- Trends will be loaded here -->
+                </div>
+            </div>
+
+            <div class="who-to-follow">
+                <h3>Who to follow</h3>
+                <div class="follow-list" id="followList">
+                    <!-- Suggestions will be loaded here -->
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <span>© 2024 Primemar</span>
+            </div>
+        </aside>
+    </div>
+
+    <!-- New Message Modal -->
+    <div class="modal hidden" id="newMessageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" id="closeNewMessageModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>New message</h2>
+                <button class="btn btn-primary" id="nextBtn" disabled>Next</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-users">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchUsersInput" placeholder="Search people">
+                </div>
+                <div class="users-list" id="usersList">
+                    <!-- Users will be loaded here -->
+                </div>
+                <div class="selected-users" id="selectedUsers">
+                    <!-- Selected users will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/messages/loadChats.js"></script>
+    <script type="module" src="/js/messages/sendMessage.js"></script>
+    <script type="module" src="/js/guards/authGuard.js"></script>
+    <script type="module">
+        import { getCurrentUser, logout } from '/js/guards/authGuard.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            const user = await getCurrentUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Setup logout
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // Setup user dropdown
+            const moreBtn = document.getElementById('moreBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', () => {
+                userDropdown.classList.add('hidden');
+            });
+
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Setup message modal
+            const newMessageBtn = document.getElementById('newMessageBtn');
+            const newMessageModal = document.getElementById('newMessageModal');
+            const closeNewMessageModal = document.getElementById('closeNewMessageModal');
+            const startNewChat = document.getElementById('startNewChat');
+
+            newMessageBtn.addEventListener('click', () => {
+                newMessageModal.classList.remove('hidden');
+            });
+
+            startNewChat.addEventListener('click', () => {
+                newMessageModal.classList.remove('hidden');
+            });
+
+            closeNewMessageModal.addEventListener('click', () => {
+                newMessageModal.classList.add('hidden');
+            });
+
+            newMessageModal.addEventListener('click', (e) => {
+                if (e.target === newMessageModal) {
+                    newMessageModal.classList.add('hidden');
+                }
+            });
+
+            // Back to conversations
+            const backToConversations = document.getElementById('backToConversations');
+            backToConversations.addEventListener('click', () => {
+                document.getElementById('activeChat').classList.add('hidden');
+                document.getElementById('chatArea').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
