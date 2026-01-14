@@ -1,0 +1,86 @@
+<!-- public/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Primemar</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-dove" style="color: #1d9bf0; font-size: 2rem;"></i>
+                    <h1>Primemar</h1>
+                </div>
+            </div>
+
+            <div class="auth-content">
+                <h2>Create your account</h2>
+                
+                <form id="signupForm">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="displayName">Display Name</label>
+                        <input type="text" id="displayName" name="displayName" required>
+                        <div class="error-message" id="displayNameError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required minlength="6">
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="bio">Bio (Optional)</label>
+                        <textarea id="bio" name="bio" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                        Create account
+                    </button>
+
+                    <div class="success-message" id="successMessage"></div>
+                    <div class="error-message" id="generalError"></div>
+                </form>
+
+                <div style="text-align: center; margin: 1rem 0;">
+                    <a href="/index.html" style="color: var(--text-secondary);">
+                        <i class="fas fa-arrow-left"></i> Back to home
+                    </a>
+                </div>
+
+                <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;">
+                    <p style="text-align: center; color: var(--text-secondary);">
+                        Already have an account? <a href="/login.html">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/auth/signup.js"></script>
+</body>
+</html>
