@@ -1,0 +1,74 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primemar - A Twitter-inspired social platform</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-dove" style="color: #1d9bf0; font-size: 2rem;"></i>
+                    <h1>Primemar</h1>
+                </div>
+                <p class="tagline">Join the conversation. Share your thoughts.</p>
+            </div>
+
+            <div class="auth-content">
+                <h2>What's happening now</h2>
+                <p>Join Primemar today.</p>
+                
+                <div class="auth-buttons">
+                    <button onclick="window.location.href='/signup.html'" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                        Create account
+                    </button>
+                    <p style="text-align: center; margin: 1rem 0; color: var(--text-secondary);">or</p>
+                    <button onclick="window.location.href='/login.html'" class="btn btn-secondary" style="width: 100%;">
+                        Sign in
+                    </button>
+                </div>
+
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Real-time updates</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-comments"></i>
+                        <span>Direct messaging</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-image"></i>
+                        <span>Media sharing</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <span>Connect with friends</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="auth-footer">
+        <p>&copy; 2024 Primemar. A Twitter-inspired social platform.</p>
+    </footer>
+
+    <script type="module">
+        // Check if user is already logged in
+        import { supabase } from '/js/config/supabase.js';
+        
+        supabase.auth.getSession().then(({ data }) => {
+            if (data.session) {
+                window.location.href = '/feed.html';
+            }
+        });
+    </script>
+</body>
+</html>
