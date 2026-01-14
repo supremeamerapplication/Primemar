@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Insert post into database
             const { data: post, error: postError } = await supabase
-                .from('posts')
+                .from('media')
                 .insert([
                     {
                         user_id: user.id,
