@@ -1,0 +1,317 @@
+<!-- public/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Primemar</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar left-sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fas fa-dove"></i>
+                </div>
+
+                <nav class="main-nav">
+                    <a href="/feed.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Explore</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="/messages.html" class="nav-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                    <a href="/profile.html" class="nav-item active">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Bookmarks</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+
+                <button class="btn btn-primary post-btn" id="newPostBtn">
+                    <i class="fas fa-feather-alt"></i>
+                    <span>Post</span>
+                </button>
+
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">
+                        <img id="userAvatar" src="/assets/avatar.png" alt="Profile">
+                    </div>
+                    <div class="user-info">
+                        <span id="userDisplayName">Loading...</span>
+                        <small id="userUsername">@username</small>
+                    </div>
+                    <button class="more-btn" id="moreBtn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu hidden" id="userDropdown">
+                        <a href="/profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header" id="profileHeader">
+                <div class="profile-background">
+                    <img id="profileBackground" src="https://picsum.photos/800/300" alt="Background">
+                    <button class="edit-background-btn" id="editBackgroundBtn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <img id="profileAvatar" src="/assets/avatar.png" alt="Profile">
+                        <button class="edit-avatar-btn" id="editAvatarBtn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="btn btn-secondary" id="editProfileBtn">
+                            Edit profile
+                        </button>
+                        <button class="btn btn-primary hidden" id="followBtn">
+                            Follow
+                        </button>
+                        <button class="btn btn-secondary hidden" id="unfollowBtn">
+                            Following
+                        </button>
+                        <button class="more-btn">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+
+                    <div class="profile-details">
+                        <h1 id="profileDisplayName">Loading...</h1>
+                        <p class="username" id="profileUsername">@username</p>
+                        <p class="bio" id="profileBio">Bio will appear here</p>
+                        
+                        <div class="profile-stats">
+                            <a href="#" class="stat" id="followingLink">
+                                <strong id="followingCount">0</strong> Following
+                            </a>
+                            <a href="#" class="stat" id="followersLink">
+                                <strong id="followersCount">0</strong> Followers
+                            </a>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Joined <span id="joinDate">Month Year</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="posts">Posts</button>
+                <button class="profile-tab" data-tab="replies">Replies</button>
+                <button class="profile-tab" data-tab="media">Media</button>
+                <button class="profile-tab" data-tab="likes">Likes</button>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <div class="tab-content active" id="postsTab">
+                    <div class="feed" id="profileFeed">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Loading posts...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="repliesTab">
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h3>No replies yet</h3>
+                        <p>Replies to your posts will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="mediaTab">
+                    <div class="empty-state">
+                        <i class="fas fa-image"></i>
+                        <h3>No media yet</h3>
+                        <p>Photos and videos you post will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="likesTab">
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <h3>No likes yet</h3>
+                        <p>Posts you've liked will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar right-sidebar">
+            <!-- Same as feed.html -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search Primemar">
+            </div>
+
+            <div class="trending-section">
+                <h3>Trends for you</h3>
+                <div class="trending-list" id="trendingList">
+                    <!-- Trends will be loaded here -->
+                </div>
+            </div>
+
+            <div class="who-to-follow">
+                <h3>Who to follow</h3>
+                <div class="follow-list" id="followList">
+                    <!-- Suggestions will be loaded here -->
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <span>© 2024 Primemar</span>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal hidden" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" id="closeEditModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Edit profile</h2>
+                <button class="btn btn-primary" id="saveProfileBtn">Save</button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="input-group">
+                        <label for="editDisplayName">Display Name</label>
+                        <input type="text" id="editDisplayName" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="editUsername">Username</label>
+                        <input type="text" id="editUsername" required>
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="editBio">Bio</label>
+                        <textarea id="editBio" rows="4"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Profile Picture</label>
+                        <div class="avatar-upload">
+                            <img id="editAvatarPreview" src="/assets/avatar.png" alt="Preview">
+                            <input type="file" id="editAvatarInput" accept="image/*" class="hidden">
+                            <button type="button" class="btn btn-secondary" id="changeAvatarBtn">
+                                Change avatar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Header Image</label>
+                        <div class="header-upload">
+                            <img id="editHeaderPreview" src="https://picsum.photos/800/300" alt="Preview">
+                            <input type="file" id="editHeaderInput" accept="image/*" class="hidden">
+                            <button type="button" class="btn btn-secondary" id="changeHeaderBtn">
+                                Change header
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/profile/loadProfile.js"></script>
+    <script type="module" src="/js/guards/authGuard.js"></script>
+    <script type="module">
+        import { getCurrentUser, logout } from '/js/guards/authGuard.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            const user = await getCurrentUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Setup logout
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // Setup user dropdown
+            const moreBtn = document.getElementById('moreBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', () => {
+                userDropdown.classList.add('hidden');
+            });
+
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Setup profile tabs
+            const tabs = document.querySelectorAll('.profile-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
