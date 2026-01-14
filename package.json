@@ -1,0 +1,20 @@
+{
+  "name": "primemar",
+  "version": "1.0.0",
+  "description": "Primemar is a modern social app for sharing moments, discovering trends, and connecting with people in real time—simple, fast, and built for meaningful interaction.",
+  "scripts": {
+    "dev": "live-server public --port=3000",
+    "build": "echo 'No build step needed for static site'",
+    "deploy": "vercel --prod",
+    "start": "live-server public --port=3000"
+  },
+  "keywords": ["social-media",  "supabase", "vanilla-js"],
+  "author": "SupremeAmer Applications",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
