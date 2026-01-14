@@ -1,0 +1,266 @@
+/* public/css/profile.css */
+.profile-header {
+    position: relative;
+}
+
+.profile-background {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-background-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-background-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.profile-info {
+    padding: 0 1rem;
+    position: relative;
+}
+
+.profile-avatar {
+    position: absolute;
+    top: -60px;
+    left: 1rem;
+}
+
+.profile-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--background);
+    object-fit: cover;
+}
+
+.edit-avatar-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-avatar-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 0;
+}
+
+.profile-details {
+    margin-top: 60px;
+    padding-bottom: 1rem;
+}
+
+.profile-details h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.profile-details .username {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.profile-details .bio {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.profile-stats .stat {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.profile-stats .stat:hover {
+    text-decoration: underline;
+}
+
+.profile-stats strong {
+    color: var(--text-primary);
+}
+
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-tab {
+    flex: 1;
+    padding: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 700;
+    position: relative;
+}
+
+.profile-tab:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profile-tab.active {
+    color: var(--text-primary);
+}
+
+.profile-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.avatar-upload,
+.header-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.avatar-upload img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.header-upload img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* Followers/Following Modal */
+.follow-modal .modal-content {
+    max-width: 400px;
+}
+
+.follow-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.follow-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.follow-item:last-child {
+    border-bottom: none;
+}
+
+.follow-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.follow-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.follow-info {
+    flex: 1;
+}
+
+.follow-info .name {
+    font-weight: 700;
+}
+
+.follow-info .username {
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-avatar {
+        position: static;
+        margin-top: -50px;
+        text-align: center;
+    }
+
+    .profile-avatar img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-details {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .profile-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .profile-tabs {
+        overflow-x: auto;
+    }
+
+    .profile-tab {
+        white-space: nowrap;
+        flex: none;
+        padding: 1rem 1.5rem;
+    }
+}
