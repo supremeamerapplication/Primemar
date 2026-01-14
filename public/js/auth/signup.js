@@ -88,19 +88,22 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
 
         try {
-            // Check if username already exists
+            // Check if username already exists BEFORE signup
             const { data: existingUser, error: usernameCheckError } = await supabase
                 .from('profiles')
                 .select('id')
                 .eq('username', username)
-                .single();
+                .maybeSingle(); // Use maybeSingle instead of single
 
             if (existingUser) {
                 showError(usernameError, 'Username already taken');
+                signupForm.classList.remove('loading');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
                 return;
             }
 
-            // Sign up with Supabase Auth
+            // Sign up with Supabase Auth ONLY - Profile will be created automatically by trigger
             const { data: authData, error: authError } = await supabase.auth.signUp({
                 email,
                 password,
@@ -109,7 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         username,
                         display_name: displayName,
                         bio
-                    }
+                    },
+                    emailRedirectTo: `${window.location.origin}/login.html` // Redirect after email confirmation
                 }
             });
 
@@ -117,45 +121,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw authError;
             }
 
-            // Create profile in database
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert([
-                    {
-                        id: authData.user.id,
-                        username,
-                        display_name: displayName,
-                        bio,
-                        avatar_url: null,
-                        followers_count: 0,
-                        following_count: 0
-                    }
-                ]);
-
-            if (profileError) {
-                throw profileError;
+            if (authData.user) {
+                // Show success message
+                showSuccess(successMessage, 'Account created successfully! Please check your email to confirm your account.');
+                
+                // Reset form
+                signupForm.reset();
+                
+                // Don't redirect immediately - let user see success message
+                // Auto-redirect to login after 5 seconds
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 5000);
+            } else {
+                throw new Error('No user data returned');
             }
-
-            // Show success message
-            showSuccess(successMessage, 'Account created successfully! Check your email for confirmation.');
-
-            // Reset form
-            signupForm.reset();
-
-            // Redirect to login page after 3 seconds
-            setTimeout(() => {
-                window.location.href = '/login.html';
-            }, 3000);
 
         } catch (error) {
             console.error('Signup error:', error);
             
-            if (error.message.includes('already registered')) {
-                showError(emailError, 'Email already registered');
+            if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+                showError(emailError, 'Email already registered. Please use a different email or login.');
             } else if (error.message.includes('password')) {
-                showError(passwordError, 'Password does not meet requirements');
+                showError(passwordError, 'Password does not meet requirements. Must be at least 6 characters.');
+            } else if (error.message.includes('rate limit')) {
+                showError(generalError, 'Too many attempts. Please try again later.');
+            } else if (error.message.includes('invalid email')) {
+                showError(emailError, 'Please enter a valid email address.');
             } else {
-                showError(generalError, 'An error occurred. Please try again.');
+                showError(generalError, 'An error occurred: ' + error.message);
             }
         } finally {
             // Reset loading state
@@ -178,11 +172,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function showError(element, message) {
         element.textContent = message;
         element.style.display = 'block';
+        // Scroll to error
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function showSuccess(element, message) {
         element.textContent = message;
         element.style.display = 'block';
+        element.style.color = '#00ba7c'; // Green color for success
+        // Scroll to success message
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function isValidEmail(email) {
