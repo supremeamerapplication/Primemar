@@ -1,496 +1,247 @@
+<!-- public/feed.html -->
 <!DOCTYPE html>
-<html lang="en" class="theme-light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feed - Primemar</title>
-    <meta name="description" content="Connect with your community on Primemar">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/css/base.css" as="style">
-    <link rel="preload" href="/css/feed.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="anonymous">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/feed.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-          crossorigin="anonymous" 
-          referrerpolicy="no-referrer">
-    
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#1d9bf0">
-    
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-    
-    <!-- Manifest for PWA -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
-        <!-- Skip to main content for accessibility -->
-        <a href="#main-content" class="skip-to-main">Skip to main content</a>
-        
         <!-- Left Sidebar -->
-        <aside class="sidebar left-sidebar" aria-label="Primary navigation">
+        <aside class="sidebar left-sidebar">
             <div class="sidebar-content">
-                <!-- Logo with ARIA label -->
-                <a href="/feed.html" class="logo" aria-label="Primemar Home">
-                    <i class="fas fa-dove" aria-hidden="true"></i>
-                    <span class="visually-hidden">Primemar</span>
-                </a>
+                <div class="logo">
+                    <i class="fas fa-dove"></i>
+                </div>
 
-                <!-- Main Navigation -->
-                <nav class="main-nav" aria-label="Main navigation">
-                    <a href="/feed.html" class="nav-item active" aria-current="page">
-                        <i class="fas fa-home" aria-hidden="true"></i>
+                <nav class="main-nav">
+                    <a href="/feed.html" class="nav-item active">
+                        <i class="fas fa-home"></i>
                         <span>Home</span>
-                        <span class="visually-hidden">, current page</span>
                     </a>
-                    <a href="/explore.html" class="nav-item" id="exploreBtn">
-                        <i class="fas fa-hashtag" aria-hidden="true"></i>
+                    <a href="#" class="nav-item" id="exploreBtn">
+                        <i class="fas fa-hashtag"></i>
                         <span>Explore</span>
                     </a>
-                    <button class="nav-item" id="notificationsBtn" aria-label="Notifications" 
-                            aria-describedby="notificationBadge">
-                        <i class="fas fa-bell" aria-hidden="true"></i>
+                    <a href="#" class="nav-item" id="notificationsBtn">
+                        <i class="fas fa-bell"></i>
                         <span>Notifications</span>
-                        <span class="badge hidden" id="notificationBadge" aria-live="polite">0</span>
-                    </button>
-                    <a href="/messages.html" class="nav-item" id="messagesBtn">
-                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <span class="badge hidden" id="notificationBadge">0</span>
+                    </a>
+                    <a href="#" class="nav-item" id="messagesBtn">
+                        <i class="fas fa-envelope"></i>
                         <span>Messages</span>
-                        <span class="badge hidden" id="messageBadge" aria-live="polite">0</span>
+                        <span class="badge hidden" id="messageBadge">0</span>
                     </a>
                     <a href="/profile.html" class="nav-item" id="profileBtn">
-                        <i class="fas fa-user" aria-hidden="true"></i>
+                        <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
-                    <button class="nav-item" id="bookmarksBtn" aria-label="Bookmarks">
-                        <i class="fas fa-bookmark" aria-hidden="true"></i>
+                    <a href="#" class="nav-item" id="bookmarksBtn">
+                        <i class="fas fa-bookmark"></i>
                         <span>Bookmarks</span>
-                    </button>
-                    <a href="/settings.html" class="nav-item" id="settingsBtn">
-                        <i class="fas fa-cog" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" class="nav-item" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
                         <span>Settings</span>
                     </a>
                 </nav>
 
-                <!-- Floating Action Button for Mobile -->
-                <button class="btn btn-primary post-btn fab-mobile" id="newPostBtnMobile" aria-label="Create new post">
-                    <i class="fas fa-feather-alt" aria-hidden="true"></i>
-                </button>
-
-                <!-- Desktop Post Button -->
                 <button class="btn btn-primary post-btn" id="newPostBtn">
-                    <i class="fas fa-feather-alt" aria-hidden="true"></i>
+                    <i class="fas fa-feather-alt"></i>
                     <span>Post</span>
                 </button>
 
-                <!-- User Menu -->
-                <div class="user-menu" id="userMenu" role="menu">
-                    <div class="user-info-wrapper" role="menuitem" tabindex="0" aria-haspopup="true" aria-expanded="false">
-                        <div class="user-avatar">
-                            <img id="userAvatar" src="/assets/avatar.png" alt="Your profile picture" loading="lazy">
-                        </div>
-                        <div class="user-info">
-                            <span id="userDisplayName" class="truncate">Loading...</span>
-                            <small id="userUsername" class="truncate">@username</small>
-                        </div>
-                        <button class="more-btn" id="moreBtn" aria-label="More options">
-                            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-                        </button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">
+                        <img id="userAvatar" src="/assets/avatar.png" alt="Profile">
                     </div>
-                    
-                    <!-- Dropdown Menu -->
-                    <div class="dropdown-menu hidden" id="userDropdown" role="menu" aria-label="User menu">
-                        <a href="/profile.html" class="dropdown-item" role="menuitem">
-                            <i class="fas fa-user" aria-hidden="true"></i> 
-                            <span>Profile</span>
+                    <div class="user-info">
+                        <span id="userDisplayName">Loading...</span>
+                        <small id="userUsername">@username</small>
+                    </div>
+                    <button class="more-btn" id="moreBtn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu hidden" id="userDropdown">
+                        <a href="/profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
                         </a>
-                        <a href="/lists.html" class="dropdown-item" role="menuitem">
-                            <i class="fas fa-list" aria-hidden="true"></i> 
-                            <span>Lists</span>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Log out
                         </a>
-                        <a href="/drafts.html" class="dropdown-item" role="menuitem">
-                            <i class="fas fa-file-alt" aria-hidden="true"></i> 
-                            <span>Drafts</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" id="themeToggle" role="menuitem">
-                            <i class="fas fa-moon" aria-hidden="true"></i> 
-                            <span>Theme</span>
-                        </button>
-                        <a href="/help.html" class="dropdown-item" role="menuitem">
-                            <i class="fas fa-question-circle" aria-hidden="true"></i> 
-                            <span>Help Center</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item logout-item" id="logoutBtn" role="menuitem">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> 
-                            <span>Log out</span>
-                        </button>
                     </div>
                 </div>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content" id="main-content" tabindex="-1">
-            <!-- Feed Header -->
-            <header class="feed-header" role="banner">
-                <div class="header-content">
-                    <h1 class="feed-title">
-                        <button class="back-btn hidden" id="backBtn" aria-label="Go back">
-                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                        </button>
-                        <span>Home</span>
-                    </h1>
-                    <div class="header-actions">
-                        <button class="icon-btn" id="toggleFeedView" aria-label="Toggle feed view">
-                            <i class="fas fa-bolt" aria-hidden="true"></i>
-                        </button>
-                        <button class="icon-btn" id="refreshFeed" aria-label="Refresh feed">
-                            <i class="fas fa-sync-alt" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Feed Type Tabs -->
-                <div class="feed-tabs" role="tablist">
-                    <button class="tab-btn active" id="tabForYou" role="tab" aria-selected="true" 
-                            aria-controls="forYouFeed">
-                        For you
-                    </button>
-                    <button class="tab-btn" id="tabFollowing" role="tab" aria-selected="false" 
-                            aria-controls="followingFeed">
-                        Following
-                    </button>
-                </div>
-            </header>
+        <main class="main-content">
+            <div class="feed-header">
+                <h1>Home</h1>
+                <button class="refresh-btn" id="refreshFeed">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
 
             <!-- Create Post -->
-            <section class="create-post" id="createPostSection" aria-label="Create a new post">
+            <div class="create-post" id="createPostSection">
                 <div class="post-form">
                     <div class="post-avatar">
-                        <img id="currentUserAvatar" src="/assets/avatar.png" alt="Your profile" loading="lazy">
+                        <img id="currentUserAvatar" src="/assets/avatar.png" alt="You">
                     </div>
                     <div class="post-content">
-                        <!-- Audience Selector -->
-                        <div class="audience-selector hidden" id="audienceSelector">
-                            <button class="audience-btn" id="audienceBtn" aria-label="Change post audience">
-                                <span id="audienceText">Everyone</span>
-                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                        <textarea 
+                            id="postContent" 
+                            placeholder="What's happening?" 
+                            maxlength="280"
+                        ></textarea>
                         
-                        <!-- Post Input -->
-                        <div class="post-input-wrapper">
-                            <textarea 
-                                id="postContent" 
-                                placeholder="What's happening?" 
-                                maxlength="280"
-                                aria-label="Post content"
-                                rows="3"
-                            ></textarea>
-                            
-                            <!-- Mention Suggestions -->
-                            <div class="mention-suggestions hidden" id="mentionSuggestions" role="listbox"></div>
-                        </div>
-                        
-                        <!-- Media Preview -->
-                        <div class="media-preview hidden" id="mediaPreview" aria-label="Media preview">
-                            <div class="preview-container">
-                                <div class="media-grid" id="mediaGrid"></div>
-                                <button type="button" class="remove-media" id="removeAllMedia" aria-label="Remove all media">
-                                    <i class="fas fa-times" aria-hidden="true"></i>
-                                    <span>Remove all</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Post Actions -->
                         <div class="post-actions">
-                            <div class="media-buttons" aria-label="Media options">
-                                <button type="button" class="media-btn" id="addImageBtn" title="Add image" 
-                                        aria-label="Add image">
-                                    <i class="fas fa-image" aria-hidden="true"></i>
+                            <div class="media-buttons">
+                                <button type="button" class="media-btn" id="addImageBtn" title="Add image">
+                                    <i class="fas fa-image"></i>
                                 </button>
-                                <button type="button" class="media-btn" id="addVideoBtn" title="Add video" 
-                                        aria-label="Add video">
-                                    <i class="fas fa-video" aria-hidden="true"></i>
+                                <button type="button" class="media-btn" id="addVideoBtn" title="Add video">
+                                    <i class="fas fa-video"></i>
                                 </button>
-                                <button type="button" class="media-btn" id="addGIFBtn" title="Add GIF" 
-                                        aria-label="Add GIF">
-                                    <i class="fas fa-film" aria-hidden="true"></i>
+                                <button type="button" class="media-btn" id="addPollBtn" title="Add poll">
+                                    <i class="fas fa-chart-pie"></i>
                                 </button>
-                                <button type="button" class="media-btn" id="addPollBtn" title="Add poll" 
-                                        aria-label="Add poll">
-                                    <i class="fas fa-chart-pie" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="media-btn" id="addEmojiBtn" title="Add emoji" 
-                                        aria-label="Add emoji">
-                                    <i class="far fa-smile" aria-hidden="true"></i>
-                                </button>
-                                <input type="file" id="mediaUpload" accept="image/*,video/*" 
-                                       multiple class="hidden" aria-label="Upload media">
+                                <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden">
                             </div>
                             
                             <div class="post-submit">
-                                <div class="submit-controls">
-                                    <!-- Poll Creation (Hidden by default) -->
-                                    <div class="poll-creator hidden" id="pollCreator">
-                                        <div class="poll-options">
-                                            <input type="text" class="poll-option" placeholder="Option 1" maxlength="25">
-                                            <input type="text" class="poll-option" placeholder="Option 2" maxlength="25">
-                                            <button class="add-option-btn" aria-label="Add option">+</button>
-                                        </div>
-                                        <div class="poll-duration">
-                                            <select aria-label="Poll duration">
-                                                <option value="1">1 day</option>
-                                                <option value="3">3 days</option>
-                                                <option value="7">7 days</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="char-count-wrapper">
-                                        <progress class="char-progress" id="charProgress" max="280" value="0" 
-                                                  aria-label="Character count"></progress>
-                                        <span class="char-count" id="charCount" aria-live="polite">280</span>
-                                    </div>
-                                    
-                                    <button type="button" class="btn btn-primary" id="submitPost" disabled 
-                                            aria-label="Post to feed">
-                                        Post
-                                    </button>
-                                </div>
+                                <span class="char-count" id="charCount">280</span>
+                                <button type="button" class="btn btn-primary" id="submitPost" disabled>
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="media-preview hidden" id="mediaPreview">
+                            <div class="preview-container">
+                                <img id="previewImage" class="hidden" alt="Preview">
+                                <video id="previewVideo" class="hidden" controls></video>
+                                <button type="button" class="remove-media" id="removeMedia">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Feed Tabs Content -->
-            <div class="feed-tabs-content">
-                <!-- For You Feed -->
-                <section class="feed active" id="forYouFeed" role="tabpanel" aria-labelledby="tabForYou">
-                    <div class="loading-spinner" aria-live="polite" aria-busy="true">
-                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-                        <span>Loading posts...</span>
-                    </div>
-                    <div class="empty-state hidden" id="emptyFeed">
-                        <i class="fas fa-feather" aria-hidden="true"></i>
-                        <h3>Nothing to see yet</h3>
-                        <p>When you follow people, their posts will appear here.</p>
-                        <button class="btn btn-outline" id="exploreSuggestions">Explore suggestions</button>
-                    </div>
-                </section>
-
-                <!-- Following Feed -->
-                <section class="feed hidden" id="followingFeed" role="tabpanel" aria-labelledby="tabFollowing">
-                    <div class="loading-spinner" aria-live="polite" aria-busy="true">
-                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-                        <span>Loading posts from people you follow...</span>
-                    </div>
-                </section>
             </div>
 
-            <!-- Infinite Scroll Loader -->
-            <div class="infinite-scroll-loader hidden" id="infiniteLoader">
-                <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-                <span>Loading more posts...</span>
+            <!-- Feed -->
+            <div class="feed" id="feed">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading posts...</span>
+                </div>
             </div>
-
-            <!-- New Posts Indicator -->
-            <button class="new-posts-indicator hidden" id="newPostsIndicator" aria-label="Show new posts">
-                <i class="fas fa-arrow-down" aria-hidden="true"></i>
-                <span id="newPostsCount">0 new posts</span>
-            </button>
         </main>
 
         <!-- Right Sidebar -->
-        <aside class="sidebar right-sidebar" aria-label="Secondary information">
-            <!-- Search -->
+        <aside class="sidebar right-sidebar">
             <div class="search-box">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <input type="search" 
-                       id="searchInput" 
-                       placeholder="Search Primemar" 
-                       aria-label="Search Primemar"
-                       autocomplete="off">
-                <div class="search-results hidden" id="searchResults" role="listbox"></div>
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search Primemar">
             </div>
 
-            <!-- Trending Section -->
-            <section class="trending-section" aria-label="Trending topics">
-                <div class="section-header">
-                    <h3>Trends for you</h3>
-                    <button class="icon-btn" id="refreshTrends" aria-label="Refresh trends">
-                        <i class="fas fa-sync-alt" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="trending-list" id="trendingList" role="list">
+            <div class="trending-section">
+                <h3>Trends for you</h3>
+                <div class="trending-list" id="trendingList">
                     <!-- Trends will be loaded here -->
                 </div>
-                <a href="/explore.html" class="show-more">Show more</a>
-            </section>
+            </div>
 
-            <!-- Who to Follow -->
-            <section class="who-to-follow" aria-label="Suggested accounts to follow">
-                <div class="section-header">
-                    <h3>Who to follow</h3>
-                    <button class="icon-btn" id="refreshSuggestions" aria-label="Refresh suggestions">
-                        <i class="fas fa-sync-alt" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="follow-list" id="followList" role="list">
+            <div class="who-to-follow">
+                <h3>Who to follow</h3>
+                <div class="follow-list" id="followList">
                     <!-- Suggestions will be loaded here -->
                 </div>
-                <a href="/connect.html" class="show-more">Show more</a>
-            </section>
+            </div>
 
-            <!-- Recent Conversations -->
-            <section class="recent-conversations hidden" id="recentConversations" aria-label="Recent conversations">
-                <h3>Recent conversations</h3>
-                <div class="conversation-list" id="conversationList" role="list"></div>
-            </section>
-
-            <!-- Footer Links -->
-            <footer class="footer-links" role="contentinfo">
-                <div class="links-grid">
-                    <a href="/tos.html">Terms of Service</a>
-                    <a href="/privacy.html">Privacy Policy</a>
-                    <a href="/cookies.html">Cookie Policy</a>
-                    <a href="/accessibility.html">Accessibility</a>
-                    <a href="/ads.html">Ads info</a>
-                    <a href="/about.html">About</a>
-                    <a href="/status.html">Status</a>
-                    <a href="/careers.html">Careers</a>
-                    <a href="/brand.html">Brand Resources</a>
-                    <a href="/advertising.html">Advertising</a>
-                    <a href="/marketing.html">Marketing</a>
-                    <a href="/business.html">Business</a>
-                    <a href="/developers.html">Developers</a>
-                </div>
-                <div class="copyright">
-                    <span>© 2024 Primemar Corp.</span>
-                    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle theme">
-                        <i class="fas fa-moon" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </footer>
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <span>© 2024 Primemar</span>
+            </div>
         </aside>
-
-        <!-- Bottom Navigation for Mobile -->
-        <nav class="bottom-nav hidden" aria-label="Mobile navigation">
-            <a href="/feed.html" class="nav-item active" aria-current="page">
-                <i class="fas fa-home" aria-hidden="true"></i>
-                <span>Home</span>
-            </a>
-            <a href="/explore.html" class="nav-item">
-                <i class="fas fa-hashtag" aria-hidden="true"></i>
-                <span>Explore</span>
-            </a>
-            <button class="nav-item" id="notificationsBtnMobile" aria-label="Notifications">
-                <i class="fas fa-bell" aria-hidden="true"></i>
-                <span>Notifications</span>
-            </button>
-            <a href="/messages.html" class="nav-item">
-                <i class="fas fa-envelope" aria-hidden="true"></i>
-                <span>Messages</span>
-            </a>
-        </nav>
     </div>
 
     <!-- New Post Modal -->
-    <div class="modal hidden" id="newPostModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal hidden" id="newPostModal">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close-modal" id="closeModal" aria-label="Close modal">
-                    <i class="fas fa-times" aria-hidden="true"></i>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
                 </button>
-                <h2 id="modalTitle">Create post</h2>
+                <h2>Create post</h2>
             </div>
             <div class="modal-body">
-                <!-- Modal content will be injected here -->
+                <!-- Same form as above, will be cloned -->
             </div>
         </div>
     </div>
 
-    <!-- Emoji Picker Modal -->
-    <div class="emoji-picker hidden" id="emojiPicker" role="dialog" aria-label="Emoji picker">
-        <div class="emoji-categories">
-            <button class="emoji-category-btn active" data-category="recent">
-                <i class="far fa-clock" aria-hidden="true"></i>
-            </button>
-            <button class="emoji-category-btn" data-category="smileys">
-                <i class="far fa-smile" aria-hidden="true"></i>
-            </button>
-            <button class="emoji-category-btn" data-category="animals">
-                <i class="fas fa-cat" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="emoji-grid" id="emojiGrid"></div>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay hidden" id="loadingOverlay">
-        <div class="spinner" role="status">
-            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-
-    <!-- JavaScript Modules with Error Handling -->
+    <script type="module" src="/js/feed/loadFeed.js"></script>
+    <script type="module" src="/js/feed/createPost.js"></script>
+    <script type="module" src="/js/guards/authGuard.js"></script>
     <script type="module">
-        // Error handling for module loading
-        window.addEventListener('error', function(e) {
-            console.error('Script loading error:', e);
-            // Show user-friendly error message
-            const toast = document.createElement('div');
-            toast.className = 'toast error';
-            toast.textContent = 'Failed to load some features. Please refresh the page.';
-            document.getElementById('toastContainer')?.appendChild(toast);
-            setTimeout(() => toast.remove(), 5000);
-        });
+        import { getCurrentUser, logout } from '/js/guards/authGuard.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            const user = await getCurrentUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
 
-        // Service Worker Registration for PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(err => {
-                    console.error('ServiceWorker registration failed:', err);
-                });
+            // Setup logout
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // Setup user dropdown
+            const moreBtn = document.getElementById('moreBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
             });
-        }
-    </script>
 
-    <!-- Core Scripts (with fallback) -->
-    <script type="module" src="/js/feed/loadFeed.js" async></script>
-    <script type="module" src="/js/feed/createPost.js" async></script>
-    <script type="module" src="/js/feed/interactions.js" async></script>
-    <script type="module" src="/js/feed/infiniteScroll.js" async></script>
-    <script type="module" src="/js/feed/search.js" async></script>
-    <script type="module" src="/js/guards/authGuard.js" async></script>
-    
-    <!-- Initialize App -->
-    <script type="module" src="/js/feed/init.js" async></script>
+            document.addEventListener('click', () => {
+                userDropdown.classList.add('hidden');
+            });
 
-    <!-- Performance Monitoring -->
-    <script>
-        // Log performance metrics
-        window.addEventListener('load', () => {
-            if ('performance' in window) {
-                const perfData = performance.getEntriesByType('navigation')[0];
-                console.log('Page loaded in:', perfData.loadEventEnd - perfData.startTime, 'ms');
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Load user info
+            import { supabase } from '/js/config/supabase.js';
+            
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            if (profile) {
+                document.getElementById('userDisplayName').textContent = profile.display_name;
+                document.getElementById('userUsername').textContent = `@${profile.username}`;
+                document.getElementById('currentUserAvatar').src = profile.avatar_url || '/assets/avatar.png';
+                document.getElementById('userAvatar').src = profile.avatar_url || '/assets/avatar.png';
             }
         });
     </script>
 </body>
-</html>
+</html>1
