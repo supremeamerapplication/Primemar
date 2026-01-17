@@ -1,115 +1,153 @@
-// public/js/auth/login.js
-import { supabase } from '../config/supabase.js';
+import { supabase } from '../config/supabase.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
-    const generalError = document.getElementById('generalError');
-    const successMessage = document.getElementById('successMessage');
+    const loginForm = document.getElementById('loginForm')
+    const togglePassword = document.getElementById('togglePassword')
+    const passwordInput = document.getElementById('password')
+    const messageDiv = document.getElementById('message')
+    const forgotPassword = document.getElementById('forgotPassword')
+    const googleBtn = document.querySelector('.btn-google')
+    const githubBtn = document.querySelector('.btn-github')
 
-    // Check if user is already logged in
-    supabase.auth.getSession().then(({ data }) => {
-        if (data.session) {
-            window.location.href = '/feed.html';
-        }
-    });
+    // Toggle password visibility
+    if (togglePassword) {
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'
+            passwordInput.setAttribute('type', type)
+            togglePassword.classList.toggle('fa-eye')
+            togglePassword.classList.toggle('fa-eye-slash')
+        })
+    }
 
+    // Handle form submission
     loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         
-        // Reset errors
-        resetErrors();
+        const email = document.getElementById('email').value.trim()
+        const password = document.getElementById('password').value
         
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        // Basic validation
-        let isValid = true;
-
-        if (!email) {
-            showError(emailError, 'Email is required');
-            isValid = false;
-        } else if (!isValidEmail(email)) {
-            showError(emailError, 'Please enter a valid email');
-            isValid = false;
+        if (!email || !password) {
+            showMessage('Please fill in all fields', 'error')
+            return
         }
-
-        if (!password) {
-            showError(passwordError, 'Password is required');
-            isValid = false;
-        } else if (password.length < 6) {
-            showError(passwordError, 'Password must be at least 6 characters');
-            isValid = false;
-        }
-
-        if (!isValid) return;
-
-        // Show loading state
-        loginForm.classList.add('loading');
-        const submitBtn = loginForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Signing in...';
-        submitBtn.disabled = true;
-
+        
+        const submitBtn = loginForm.querySelector('button[type="submit"]')
+        submitBtn.disabled = true
+        submitBtn.textContent = 'Logging in...'
+        
         try {
-            // Sign in with Supabase
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
-            });
-
-            if (error) {
-                throw error;
-            }
-
-            // Show success message
-            showSuccess(successMessage, 'Login successful! Redirecting...');
-
-            // Redirect to feed page
-            setTimeout(() => {
-                window.location.href = '/feed.html';
-            }, 1000);
-
-        } catch (error) {
-            console.error('Login error:', error);
+            })
             
-            if (error.message.includes('Invalid login credentials')) {
-                showError(generalError, 'Invalid email or password');
-            } else if (error.message.includes('Email not confirmed')) {
-                showError(generalError, 'Please confirm your email before logging in');
-            } else {
-                showError(generalError, 'An error occurred. Please try again.');
+            if (error) throw error
+            
+            // Check if user profile exists
+            const { data: userData, error: profileError } = await supabase
+                .from('users')
+                .select('*')
+                .eq('id', data.user.id)
+                .single()
+            
+            if (profileError && profileError.code === 'PGRST116') {
+                // Profile doesn't exist, create one
+                const { error: createError } = await supabase
+                    .from('users')
+                    .insert([{
+                        id: data.user.id,
+                        username: data.user.email.split('@')[0],
+                        display_name: data.user.email.split('@')[0],
+                        created_at: new Date()
+                    }])
+                
+                if (createError) {
+                    console.error('Error creating profile:', createError)
+                }
+                
+                // Create wallet for user
+                await supabase
+                    .from('wallets')
+                    .insert([{
+                        user_id: data.user.id,
+                        sa_balance: 100, // Starting bonus
+                        usd_balance: 0,
+                        created_at: new Date()
+                    }])
+                
+                // Create creator stats
+                await supabase
+                    .from('creator_stats')
+                    .insert([{
+                        user_id: data.user.id,
+                        daily_sa_earned: 0,
+                        last_reset_date: new Date()
+                    }])
             }
+            
+            showMessage('Login successful! Redirecting...', 'success')
+            setTimeout(() => {
+                window.location.href = '/feed.html'
+            }, 1000)
+            
+        } catch (error) {
+            console.error('Login error:', error)
+            showMessage(error.message || 'Login failed. Please check your credentials.', 'error')
         } finally {
-            // Reset loading state
-            loginForm.classList.remove('loading');
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            submitBtn.disabled = false
+            submitBtn.textContent = 'Log In'
         }
-    });
+    })
 
-    function resetErrors() {
-        emailError.style.display = 'none';
-        passwordError.style.display = 'none';
-        generalError.style.display = 'none';
-        successMessage.style.display = 'none';
+    // Forgot password
+    if (forgotPassword) {
+        forgotPassword.addEventListener('click', async (e) => {
+            e.preventDefault()
+            const email = prompt('Please enter your email address:')
+            if (!email) return
+            
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password.html`
+            })
+            
+            if (error) {
+                showMessage('Error sending reset email: ' + error.message, 'error')
+            } else {
+                showMessage('Password reset email sent! Check your inbox.', 'success')
+            }
+        })
     }
 
-    function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
+    // Social login
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/feed.html`
+                }
+            })
+        })
     }
 
-    function showSuccess(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
+    if (githubBtn) {
+        githubBtn.addEventListener('click', () => {
+            supabase.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: `${window.location.origin}/feed.html`
+                }
+            })
+        })
     }
 
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+    function showMessage(text, type) {
+        messageDiv.textContent = text
+        messageDiv.className = `message ${type}`
+        messageDiv.style.display = 'block'
+        
+        setTimeout(() => {
+            messageDiv.style.display = 'none'
+        }, 5000)
     }
-});
+})
