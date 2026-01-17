@@ -1,20 +1,25 @@
 {
   "name": "primemar",
   "version": "1.0.0",
-  "description": "Primemar is a modern social app for sharing moments, discovering trends, and connecting with people in real time—simple, fast, and built for meaningful interaction.",
+  "description": "Social Media Platform with Creator Monetization",
   "scripts": {
     "dev": "live-server public --port=3000",
-    "build": "echo 'No build step needed for static site'",
+    "build": "npm run build:css",
+    "build:css": "postcss src/css/*.css -d public/css",
     "deploy": "vercel --prod",
-    "start": "live-server public --port=3000"
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset"
   },
-  "keywords": ["social-media",  "supabase", "vanilla-js"],
-  "author": "SupremeAmer Applications",
-  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
+    "@stripe/stripe-js": "^1.54.1"
+  },
   "devDependencies": {
-    "live-server": "^1.2.2"
-  },
-  "engines": {
-    "node": ">=14"
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.2",
+    "live-server": "^1.2.2",
+    "vercel": "^28.16.15"
   }
 }
