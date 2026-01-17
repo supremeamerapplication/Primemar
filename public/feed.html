@@ -1,4 +1,3 @@
-<!-- public/feed.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,238 +9,254 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Left Sidebar -->
-        <aside class="sidebar left-sidebar">
-            <div class="sidebar-content">
-                <div class="logo">
-                    <i class="fas fa-dove"></i>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <a href="/feed.html" class="logo">
+                        <i class="fas fa-crown"></i>
+                        Primemar
+                    </a>
                 </div>
-
-                <nav class="main-nav">
-                    <a href="/feed.html" class="nav-item active">
+                
+                <div class="nav-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search Primemar" id="searchInput">
+                </div>
+                
+                <div class="nav-links">
+                    <a href="/feed.html" class="nav-link active">
                         <i class="fas fa-home"></i>
                         <span>Home</span>
                     </a>
-                    <a href="#" class="nav-item" id="exploreBtn">
-                        <i class="fas fa-hashtag"></i>
-                        <span>Explore</span>
-                    </a>
-                    <a href="#" class="nav-item" id="notificationsBtn">
-                        <i class="fas fa-bell"></i>
-                        <span>Notifications</span>
-                        <span class="badge hidden" id="notificationBadge">0</span>
-                    </a>
-                    <a href="#" class="nav-item" id="messagesBtn">
+                    <a href="/messages.html" class="nav-link">
                         <i class="fas fa-envelope"></i>
                         <span>Messages</span>
-                        <span class="badge hidden" id="messageBadge">0</span>
+                        <span class="badge" id="messageBadge">0</span>
                     </a>
-                    <a href="/profile.html" class="nav-item" id="profileBtn">
+                    <a href="/subscriptions.html" class="nav-link">
+                        <i class="fas fa-star"></i>
+                        <span>Subscriptions</span>
+                    </a>
+                    <a href="/profile.html" class="nav-link">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
-                    <a href="#" class="nav-item" id="bookmarksBtn">
-                        <i class="fas fa-bookmark"></i>
-                        <span>Bookmarks</span>
-                    </a>
-                    <a href="#" class="nav-item" id="settingsBtn">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </nav>
-
-                <button class="btn btn-primary post-btn" id="newPostBtn">
-                    <i class="fas fa-feather-alt"></i>
-                    <span>Post</span>
-                </button>
-
-                <div class="user-menu" id="userMenu">
-                    <div class="user-avatar">
-                        <img id="userAvatar" src="/assets/avatar.png" alt="Profile">
+                    <div class="nav-wallet" id="walletInfo">
+                        <i class="fas fa-wallet"></i>
+                        <span>Loading...</span>
                     </div>
-                    <div class="user-info">
-                        <span id="userDisplayName">Loading...</span>
-                        <small id="userUsername">@username</small>
-                    </div>
-                    <button class="more-btn" id="moreBtn">
-                        <i class="fas fa-ellipsis-h"></i>
+                    <button class="btn btn-primary btn-post">
+                        <i class="fas fa-plus"></i>
+                        <span>Post</span>
                     </button>
-                    <div class="dropdown-menu hidden" id="userDropdown">
-                        <a href="/profile.html" class="dropdown-item">
-                            <i class="fas fa-user"></i> Profile
-                        </a>
-                        <a href="#" class="dropdown-item" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i> Log out
-                        </a>
+                    <div class="nav-profile">
+                        <img id="navAvatar" src="" alt="Profile" class="avatar-sm">
+                        <div class="dropdown">
+                            <button class="dropdown-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                                <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="feed-header">
-                <h1>Home</h1>
-                <button class="refresh-btn" id="refreshFeed">
-                    <i class="fas fa-sync-alt"></i>
+                
+                <button class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
+        </div>
+    </nav>
 
-            <!-- Create Post -->
-            <div class="create-post" id="createPostSection">
-                <div class="post-form">
-                    <div class="post-avatar">
-                        <img id="currentUserAvatar" src="/assets/avatar.png" alt="You">
+    <!-- Main Content -->
+    <div class="container">
+        <div class="feed-layout">
+            <!-- Left Sidebar -->
+            <aside class="sidebar left-sidebar">
+                <div class="sidebar-card">
+                    <h3>Trending Now</h3>
+                    <div class="trending-list" id="trendingList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
                     </div>
-                    <div class="post-content">
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3>Who to Follow</h3>
+                    <div class="suggestions-list" id="suggestionsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Feed -->
+            <main class="feed-main">
+                <!-- Create Post -->
+                <div class="create-post-card">
+                    <div class="create-post-header">
+                        <img id="createPostAvatar" src="" alt="Profile" class="avatar-md">
                         <textarea 
                             id="postContent" 
-                            placeholder="What's happening?" 
-                            maxlength="280"
-                        ></textarea>
-                        
-                        <div class="post-actions">
-                            <div class="media-buttons">
-                                <button type="button" class="media-btn" id="addImageBtn" title="Add image">
-                                    <i class="fas fa-image"></i>
-                                </button>
-                                <button type="button" class="media-btn" id="addVideoBtn" title="Add video">
-                                    <i class="fas fa-video"></i>
-                                </button>
-                                <button type="button" class="media-btn" id="addPollBtn" title="Add poll">
-                                    <i class="fas fa-chart-pie"></i>
-                                </button>
-                                <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden">
-                            </div>
-                            
-                            <div class="post-submit">
-                                <span class="char-count" id="charCount">280</span>
-                                <button type="button" class="btn btn-primary" id="submitPost" disabled>
-                                    Post
-                                </button>
-                            </div>
+                            placeholder="What's happening?"
+                            rows="3"
+                            maxlength="280"></textarea>
+                    </div>
+                    
+                    <div class="create-post-actions">
+                        <div class="media-options">
+                            <button class="btn-icon" id="addImage">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button class="btn-icon" id="addVideo">
+                                <i class="fas fa-video"></i>
+                            </button>
+                            <button class="btn-icon" id="addPoll">
+                                <i class="fas fa-chart-bar"></i>
+                            </button>
                         </div>
+                        
+                        <div class="post-controls">
+                            <span class="char-count" id="charCount">280</span>
+                            <button class="btn btn-primary" id="submitPost">
+                                Post
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="mediaUpload" accept="image/*,video/*" hidden>
+                </div>
 
-                        <div class="media-preview hidden" id="mediaPreview">
-                            <div class="preview-container">
-                                <img id="previewImage" class="hidden" alt="Preview">
-                                <video id="previewVideo" class="hidden" controls></video>
-                                <button type="button" class="remove-media" id="removeMedia">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
+                <!-- Feed Tabs -->
+                <div class="feed-tabs">
+                    <button class="tab-btn active" data-feed="for-you">For You</button>
+                    <button class="tab-btn" data-feed="following">Following</button>
+                    <button class="tab-btn" data-feed="boosted">Boosted</button>
+                </div>
+
+                <!-- Posts Container -->
+                <div class="posts-container" id="postsContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar right-sidebar">
+                <!-- Wallet Card -->
+                <div class="sidebar-card wallet-card">
+                    <h3>Your Wallet</h3>
+                    <div class="wallet-balance">
+                        <div class="balance-item">
+                            <span class="balance-label">SA Tokens</span>
+                            <span class="balance-value" id="saBalance">0</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">USD Balance</span>
+                            <span class="balance-value" id="usdBalance">$0.00</span>
+                        </div>
+                        <div class="balance-item">
+                            <span class="balance-label">Today's Earnings</span>
+                            <span class="balance-value" id="dailyEarnings">0 SA</span>
+                        </div>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="btn btn-sm btn-primary" id="withdrawBtn">
+                            <i class="fas fa-money-bill-wave"></i> Withdraw
+                        </button>
+                        <button class="btn btn-sm btn-outline" id="buySaBtn">
+                            <i class="fas fa-shopping-cart"></i> Buy SA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Verification Card -->
+                <div class="sidebar-card verification-card" id="verificationCard">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <!-- Boost Card -->
+                <div class="sidebar-card boost-card">
+                    <h3>Boost Your Post</h3>
+                    <p>Increase visibility with SA tokens</p>
+                    <div class="boost-options">
+                        <div class="boost-option">
+                            <h4>Small Boost</h4>
+                            <p>50 SA</p>
+                            <button class="btn btn-sm btn-outline">Select</button>
+                        </div>
+                        <div class="boost-option">
+                            <h4>Medium Boost</h4>
+                            <p>200 SA</p>
+                            <button class="btn btn-sm btn-outline">Select</button>
+                        </div>
+                        <div class="boost-option">
+                            <h4>Large Boost</h4>
+                            <p>500 SA</p>
+                            <button class="btn btn-sm btn-outline">Select</button>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Feed -->
-            <div class="feed" id="feed">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <span>Loading posts...</span>
-                </div>
-            </div>
-        </main>
-
-        <!-- Right Sidebar -->
-        <aside class="sidebar right-sidebar">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search Primemar">
-            </div>
-
-            <div class="trending-section">
-                <h3>Trends for you</h3>
-                <div class="trending-list" id="trendingList">
-                    <!-- Trends will be loaded here -->
-                </div>
-            </div>
-
-            <div class="who-to-follow">
-                <h3>Who to follow</h3>
-                <div class="follow-list" id="followList">
-                    <!-- Suggestions will be loaded here -->
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Cookie Policy</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Ads info</a>
-                <span>© 2024 Primemar</span>
-            </div>
-        </aside>
-    </div>
-
-    <!-- New Post Modal -->
-    <div class="modal hidden" id="newPostModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close-modal" id="closeModal">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2>Create post</h2>
-            </div>
-            <div class="modal-body">
-                <!-- Same form as above, will be cloned -->
-            </div>
+            </aside>
         </div>
     </div>
 
-    <script type="module" src="/js/feed/loadFeed.js"></script>
+    <!-- Floating Action Button -->
+    <button class="fab" id="createPostFab">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Modals -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <!-- Post content will be loaded here -->
+        </div>
+    </div>
+
+    <script type="module" src="/js/feed/fetchFeed.js"></script>
     <script type="module" src="/js/feed/createPost.js"></script>
-    <script type="module" src="/js/guards/authGuard.js"></script>
+    <script type="module" src="/js/monetization/wallet.js"></script>
+    <script type="module" src="/js/auth/logout.js"></script>
     <script type="module">
-        import { getCurrentUser, logout } from '/js/guards/authGuard.js';
+        import { requireAuth } from './js/guards/authGuard.js'
+        import { supabase } from './js/config/supabase.js'
         
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Check authentication
-            const user = await getCurrentUser();
-            if (!user) {
-                window.location.href = '/login.html';
-                return;
-            }
-
-            // Setup logout
-            document.getElementById('logoutBtn').addEventListener('click', logout);
+        // Check authentication
+        requireAuth('/login.html')
+        
+        // Initialize wallet display
+        async function loadWallet() {
+            const user = await requireAuth()
+            if (!user) return
             
-            // Setup user dropdown
-            const moreBtn = document.getElementById('moreBtn');
-            const userDropdown = document.getElementById('userDropdown');
-            
-            moreBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                userDropdown.classList.toggle('hidden');
-            });
-
-            document.addEventListener('click', () => {
-                userDropdown.classList.add('hidden');
-            });
-
-            userDropdown.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-
-            // Load user info
-            import { supabase } from '/js/config/supabase.js';
-            
-            const { data: profile } = await supabase
-                .from('profiles')
+            const { data: wallet, error } = await supabase
+                .from('wallets')
                 .select('*')
-                .eq('id', user.id)
-                .single();
-
-            if (profile) {
-                document.getElementById('userDisplayName').textContent = profile.display_name;
-                document.getElementById('userUsername').textContent = `@${profile.username}`;
-                document.getElementById('currentUserAvatar').src = profile.avatar_url || '/assets/avatar.png';
-                document.getElementById('userAvatar').src = profile.avatar_url || '/assets/avatar.png';
+                .eq('user_id', user.id)
+                .single()
+            
+            if (!error && wallet) {
+                document.getElementById('saBalance').textContent = wallet.sa_balance
+                document.getElementById('usdBalance').textContent = `$${wallet.usd_balance.toFixed(2)}`
             }
-        });
+        }
+        
+        loadWallet()
+        
+        // Navigation toggle for mobile
+        document.getElementById('navToggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active')
+        })
     </script>
 </body>
-</html>1
+</html>
